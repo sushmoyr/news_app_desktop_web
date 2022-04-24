@@ -1,4 +1,7 @@
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:news_app_desktop_web/models/article_category.dart';
+import 'package:news_app_desktop_web/models/news_page.dart';
+import 'package:news_app_desktop_web/widgets/news_list.dart';
 import 'package:window_manager/window_manager.dart';
 import "dart:io";
 
@@ -32,6 +35,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return FluentApp(
       title: 'News app',
+      themeMode: ThemeMode.light,
       theme: ThemeData(
         accentColor: Colors.orange,
         brightness: Brightness.light,
@@ -58,6 +62,44 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
   final viewKey = GlobalKey();
   int _index = 0;
 
+  final List<NewsPage> pages = const [
+    NewsPage(
+      title: 'Top Headlines',
+      iconData: FluentIcons.news,
+      category: ArticleCategory.general,
+    ),
+    NewsPage(
+      title: 'Business',
+      iconData: FluentIcons.business_center_logo,
+      category: ArticleCategory.business,
+    ),
+    NewsPage(
+      title: 'Technology',
+      iconData: FluentIcons.laptop_secure,
+      category: ArticleCategory.technology,
+    ),
+    NewsPage(
+      title: 'Entertainment',
+      iconData: FluentIcons.my_movies_t_v,
+      category: ArticleCategory.entertainment,
+    ),
+    NewsPage(
+      title: 'Sports',
+      iconData: FluentIcons.more_sports,
+      category: ArticleCategory.sports,
+    ),
+    NewsPage(
+      title: 'Science',
+      iconData: FluentIcons.communications,
+      category: ArticleCategory.science,
+    ),
+    NewsPage(
+      title: 'Health',
+      iconData: FluentIcons.health,
+      category: ArticleCategory.health,
+    ),
+  ];
+
   @override
   void initState() {
     windowManager.addListener(this);
@@ -80,25 +122,19 @@ class _MyHomePageState extends State<MyHomePage> with WindowListener {
           _index = index;
         }),
         displayMode: PaneDisplayMode.compact,
-        items: [
-          PaneItem(
-            icon: const Icon(FluentIcons.news),
-            title: const Text('Top Headlines'),
-          ),
-          PaneItem(
-            icon: const Icon(FluentIcons.business_center_logo),
-            title: const Text('Business'),
-          ),
-          PaneItem(
-            icon: const Icon(FluentIcons.laptop_secure),
-            title: const Text('Technology'),
-          ),
-        ],
+        items: pages
+            .map<NavigationPaneItem>(
+              (e) => PaneItem(
+                icon: Icon(e.iconData),
+                title: Text(e.title),
+              ),
+            )
+            .toList(),
       ),
       content: NavigationBody.builder(
         index: _index,
         itemBuilder: (ctx, i) {
-          return Text('index: $_index');
+          return NewsListPage(newsPage: pages[i]);
         },
       ),
     );
