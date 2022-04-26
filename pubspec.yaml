@@ -37,6 +37,8 @@ dependencies:
   fluent_ui: ^3.10.3
   window_manager: ^0.2.1
   transparent_image: ^2.0.0
+  timeago: ^3.2.2
+  http: ^0.13.4
 
 dev_dependencies:
   flutter_test:

@@ -1,16 +1,18 @@
 import 'package:fluent_ui/fluent_ui.dart';
 import 'package:flutter/material.dart' as material;
+import 'package:news_app_desktop_web/models/article.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 class NewsItem extends StatelessWidget {
-  const NewsItem({Key? key}) : super(key: key);
+  final Article article;
+  const NewsItem({Key? key, required this.article}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Typography typography = FluentTheme.of(context).typography;
 
     return Card(
-      padding: EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: 8),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,8 +34,7 @@ class NewsItem extends StatelessWidget {
                   );
                 },
                 fit: BoxFit.cover,
-                image:
-                    'https://www.befunky.com/images/prismic/2aa87dc8-3720-4385-9cc2-b8f9be5aac1d_landing-photo-to-art-img-4-before.png?auto=webp&format=jpg&width=863',
+                image: article.urlToImage ?? '',
               ),
             ),
           ),
@@ -45,7 +46,7 @@ class NewsItem extends StatelessWidget {
                 right: 8,
               ),
               child: Text(
-                'Photo To Art | Go From Photo To Painting With BeFunky',
+                article.title,
                 style: typography.bodyLarge?.apply(fontSizeFactor: 0.8),
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
@@ -58,7 +59,7 @@ class NewsItem extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    'Bloomberg - 2 hours ago',
+                    article.captionText(),
                     style: typography.caption?.apply(fontSizeFactor: 1),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
